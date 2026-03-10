@@ -544,14 +544,20 @@
           const props = feature.properties || {};
           const firstKeys = Object.keys(props).slice(0, 3);
 
-          let popupHtml = `<strong>${layerType.toUpperCase()}</strong><br>`;
-          firstKeys.forEach(k => {
-            popupHtml += `<strong>${prettifyKey(k)}:</strong> ${formatValue(props[k])}<br>`;
-          });
+          layer.on('click', function(e){
 
-          e.target.bindPopup(popupHtml).openPopup();
-        }
-      });
+  const municipio = feature.properties.MUNICIPIO;
+
+  const popupHtml = `
+  <div style="font-size:14px">
+    <strong style="color:#1f3a5f">Municipio</strong><br>
+    <span style="font-size:16px">${municipio}</span>
+  </div>
+  `;
+
+  layer.bindPopup(popupHtml).openPopup();
+
+});
     }
 
     /******************************************************************
@@ -670,4 +676,5 @@
     initLayers();
   </script>
 </body>
+
 </html>

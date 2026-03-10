@@ -532,33 +532,44 @@
           lyr.setStyle(defaultStyleObj);
         },
         click: function(e) {
-          clearHighlight();
 
-          currentHighlightedLayer = e.target;
-          currentHighlightedLayer.setStyle(highlightStyle());
-          currentHighlightedLayer.bringToFront();
+  clearHighlight();
 
-          openInfoPanel(feature.properties, layerType);
+  currentHighlightedLayer = e.target;
+  currentHighlightedLayer.setStyle(highlightStyle());
+  currentHighlightedLayer.bringToFront();
 
-          // Popup breve opcional
-          const props = feature.properties || {};
-          const firstKeys = Object.keys(props).slice(0, 3);
+  openInfoPanel(feature.properties, layerType);
 
-          layer.on('click', function(e){
+  let nombre = "Sin dato";
+  let titulo = "";
 
-  const municipio = feature.properties.MUNICIPIO;
+  if(layerType === "municipal"){
+      nombre = feature.properties["municipio"];
+      titulo = "Municipio";
+  }
+
+  if(layerType === "localidad"){
+      nombre = feature.properties["nombre de la localidad"];
+      titulo = "Localidad";
+  }
+
+  if(layerType === "ejidal"){
+      nombre = feature.properties["Nombre del núcleo"];
+      titulo = "Ejido";
+  }
 
   const popupHtml = `
   <div style="font-size:14px">
-    <strong style="color:#1f3a5f">Municipio</strong><br>
-    <span style="font-size:16px">${municipio}</span>
+    <strong style="color:#1f3a5f">${titulo}</strong><br>
+    <span style="font-size:16px">${nombre}</span>
   </div>
   `;
 
-  layer.bindPopup(popupHtml).openPopup();
-
-});
+layer.bindPopup(popupHtml).openPopup();
     }
+  });
+}
 
     /******************************************************************
      * CARGA DE GEOJSON
@@ -678,3 +689,4 @@
 </body>
 
 </html>
+
